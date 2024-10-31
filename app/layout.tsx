@@ -4,6 +4,7 @@ import "./globals.css";
 import { Providers } from "./provider";
 import { Navbar } from "./_components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import { AuthProvider } from "@/lib/AuthContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,18 +34,20 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <div className="relative flex min-h-screen flex-col px-3 sm:mx-6">
-            <Navbar />
-            <main className="flex-1">{children}</main>
-            <footer className="border-t py-6 md:py-0">
-              <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
-                <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
-                  Built by EngStudy. The source code is available on GitHub.
-                </p>
-              </div>
-            </footer>
-          </div>
-          <Toaster />
+          <AuthProvider>
+            <div className="relative flex min-h-screen flex-col mx-3 sm:mx-6">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+              <footer className="border-t py-6 md:py-0">
+                <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+                  <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
+                    Built by EngStudy. The source code is available on GitHub.
+                  </p>
+                </div>
+              </footer>
+            </div>
+            <Toaster />
+          </AuthProvider>
         </Providers>
       </body>
     </html>

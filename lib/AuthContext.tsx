@@ -31,25 +31,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      axios
-        .get("/users/me")
-        .then((response) => setUser(response.data))
-        .catch(() => localStorage.removeItem("token"));
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
     }
+    setLoading(false);
   }, []);
 
   const login = async (email: string, password: string) => {
-    const response = await axios.post("/auth/login", { email, password });
-    localStorage.setItem("token", response.data.token);
-    setUser(response.data.user);
+    try {
+      const response = await axios.post("/auth/login", { email, password });
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+    } catch (error) {
+      console.error("Login failed:", error);
+      throw error;
+    }
   };
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
   };
 
@@ -60,16 +67,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     department: string,
     semester: number
   ) => {
-    const response = await axios.post("/auth/register", {
-      name,
-      email,
-      password,
-      department,
-      semester,
-    });
-    localStorage.setItem("token", response.data.token);
-    setUser(response.data.user);
+    try {
+      const response = await axios.post("/auth/register", {
+        name,
+        email,
+        password,
+        department,
+        semester,
+      });
+      const { token, user } = response.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
+      setUser(user);
+    } catch (error) {
+      console.error("Registration failed:", error);
+      throw error;
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, login, logout, register }}>
