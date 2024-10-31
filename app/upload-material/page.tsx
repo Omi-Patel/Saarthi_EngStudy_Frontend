@@ -50,6 +50,7 @@ export default function UploadMaterial() {
       toast({
         title: "Success",
         description: "Material uploaded successfully!",
+        variant: "success",
       });
       router.push("/materials");
     },
@@ -79,46 +80,21 @@ export default function UploadMaterial() {
   };
 
   const validateForm = () => {
-    if (!title.trim()) {
+    if (
+      !title.trim() ||
+      !description.trim() ||
+      !department ||
+      !semester ||
+      !file
+    ) {
       toast({
         title: "Error",
-        description: "Title is required",
+        description: "All Fields are required.!!",
         variant: "destructive",
       });
       return false;
     }
-    if (!description.trim()) {
-      toast({
-        title: "Error",
-        description: "Description is required",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (!department) {
-      toast({
-        title: "Error",
-        description: "Department is required",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (!semester) {
-      toast({
-        title: "Error",
-        description: "Semester is required",
-        variant: "destructive",
-      });
-      return false;
-    }
-    if (!file) {
-      toast({
-        title: "Error",
-        description: "File is required",
-        variant: "destructive",
-      });
-      return false;
-    }
+
     return true;
   };
 

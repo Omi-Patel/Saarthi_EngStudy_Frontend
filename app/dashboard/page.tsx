@@ -24,7 +24,7 @@ export default function Dashboard() {
             <CardTitle className="text-xl">Welcome, {user?.name} 👋</CardTitle>
             <CardDescription>
               Your role:{" "}
-              <span className="text-white uppercase">{user?.role}</span>
+              <span className=" uppercase">{user?.role}</span>
             </CardDescription>
           </CardHeader>
           <CardContent>

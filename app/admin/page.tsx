@@ -95,6 +95,7 @@ export default function AdminDashboard() {
       toast({
         title: "Success",
         description: "User role updated successfully.",
+        variant: "success",
       });
     },
     onError: () => {
@@ -116,6 +117,7 @@ export default function AdminDashboard() {
       toast({
         title: "Success",
         description: "Material deleted successfully.",
+        variant: "success",
       });
     },
     onError: () => {
