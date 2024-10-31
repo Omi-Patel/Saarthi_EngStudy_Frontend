@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -128,9 +129,9 @@ export default function Register() {
         <CardFooter>
           <p className="text-sm text-muted-foreground">
             Already have an account?{" "}
-            <a href="/login" className="underline">
+            <Link href="/login" className="underline">
               Sign in
-            </a>
+            </Link>
           </p>
         </CardFooter>
       </Card>

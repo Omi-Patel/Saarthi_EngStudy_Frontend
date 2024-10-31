@@ -15,6 +15,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -77,9 +78,9 @@ export default function Login() {
         <CardFooter>
           <p className="text-sm text-muted-foreground">
             Don&apos;t have an account?{" "}
-            <a href="/register" className="underline">
+            <Link href="/register" className="underline">
               Sign up
-            </a>
+            </Link>
           </p>
         </CardFooter>
       </Card>
