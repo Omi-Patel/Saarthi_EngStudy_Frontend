@@ -94,7 +94,7 @@ export default function AdminDashboard() {
       queryClient.invalidateQueries({ queryKey: ["users"] });
       toast({
         title: "Success",
-        description: "User role updated successfully.",
+        description: "User Role Updated Successfully.!",
         variant: "success",
       });
     },
