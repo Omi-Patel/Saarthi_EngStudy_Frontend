@@ -113,9 +113,9 @@ export function Navbar() {
                   Login
                 </Button>
               </Link>
-              <Link href="/register">
+              {/* <Link href="/register">
                 <Button size="sm">Register</Button>
-              </Link>
+              </Link> */}
             </>
           )}
         </div>
