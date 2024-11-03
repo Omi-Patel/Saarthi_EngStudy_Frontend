@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -30,21 +31,25 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [department, setDepartment] = useState("");
   const [semester, setSemester] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { register } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     try {
       await register(name, email, password, department, parseInt(semester));
       router.push("/dashboard");
+      setLoading(false);
     } catch (error) {
       toast({
         title: "Error",
         description: "Registration failed. Please try again.",
         variant: "destructive",
       });
+      setLoading(false);
     }
   };
 
@@ -122,7 +127,14 @@ export default function Register() {
               </Select>
             </div>
             <Button className="w-full mt-6" type="submit">
-              Create account
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing Up...
+                </>
+              ) : (
+                <>Create Account</>
+              )}
             </Button>
           </form>
         </CardContent>

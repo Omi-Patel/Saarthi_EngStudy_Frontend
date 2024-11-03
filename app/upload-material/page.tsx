@@ -147,7 +147,9 @@ export default function UploadMaterial() {
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="IT">IT</SelectItem>
+                  <SelectItem value="Information Technology">
+                    Information Technology
+                  </SelectItem>
                   <SelectItem value="Computer Science">
                     Computer Science
                   </SelectItem>

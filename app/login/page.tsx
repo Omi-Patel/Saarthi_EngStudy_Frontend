@@ -16,25 +16,30 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
+import { Loader2 } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
+    setLoading(true);
     e.preventDefault();
     try {
       await login(email, password);
       router.push("/dashboard");
+      setLoading(false);
     } catch (error) {
       toast({
         title: "Error",
         description: "Invalid credentials",
         variant: "destructive",
       });
+      setLoading(false);
     }
   };
 
@@ -70,8 +75,16 @@ export default function Login() {
                 required
               />
             </div>
+
             <Button className="w-full mt-6" type="submit">
-              Sign In
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Signing In...
+                </>
+              ) : (
+                <>Sign In</>
+              )}
             </Button>
           </form>
         </CardContent>

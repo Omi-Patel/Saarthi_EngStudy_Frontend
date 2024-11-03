@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "@/lib/axios";
 import {
@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 
 interface Material {
   _id: string;
@@ -33,39 +35,74 @@ interface Material {
   };
 }
 
+const departments = [
+  "All",
+  "Information Technology",
+  "Computer Science",
+  "Civil Engineering",
+  "Mechanical Engineering",
+  "Electrical Engineering",
+];
+const semesters = ["All", "1", "2", "3", "4", "5", "6", "7", "8"];
+
 export default function Materials() {
   const [searchKeyword, setSearchKeyword] = useState("");
-  const [department, setDepartment] = useState("");
-  const [semester, setSemester] = useState("");
+  const [department, setDepartment] = useState("All");
+  const [semester, setSemester] = useState("All");
 
   const {
     data: materials,
     isLoading,
     error,
   } = useQuery<Material[]>({
-    queryKey: ["materials", searchKeyword, department, semester],
+    queryKey: ["materials"],
     queryFn: async () => {
-      const params = new URLSearchParams();
-      if (searchKeyword) params.append("keyword", searchKeyword);
-      if (department) params.append("department", department);
-      if (semester) params.append("semester", semester);
-      const response = await axios.get(`/materials?${params.toString()}`);
+      const response = await axios.get("/materials");
       return response.data;
     },
   });
 
+  const filteredMaterials = useMemo(() => {
+    if (!materials) return [];
+
+    const searchWords = searchKeyword
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((word) => word.length > 0);
+
+    return materials.filter((material) => {
+      const matchesDepartment =
+        department === "All" || material.department === department;
+      const matchesSemester =
+        semester === "All" || material.semester.toString() === semester;
+
+      const matchesKeyword =
+        searchWords.length === 0 ||
+        searchWords.some(
+          (word) =>
+            material.title.toLowerCase().includes(word) ||
+            material.description.toLowerCase().includes(word)
+        );
+
+      return matchesDepartment && matchesSemester && matchesKeyword;
+    });
+  }, [materials, department, semester, searchKeyword]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Trigger re-fetch by updating the query key
+    // The filtering is already handled by the useMemo hook
   };
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>An error occurred</div>;
+  if (isLoading) return <div className="container py-10">Loading...</div>;
+  if (error) return <div className="container py-10">An error occurred</div>;
 
   return (
-    <div className="container py-10">
+    <div className="container py-10 px-4 sm:px-6 lg:px-8">
       <h1 className="text-3xl font-bold mb-6">Study Materials</h1>
-      <form onSubmit={handleSearch} className="mb-6 flex gap-4 flex-wrap">
+      <form
+        onSubmit={handleSearch}
+        className="mb-6 flex flex-col sm:flex-row gap-4"
+      >
         <Input
           placeholder="Search materials..."
           value={searchKeyword}
@@ -73,45 +110,71 @@ export default function Materials() {
           className="flex-grow"
         />
         <Select value={department} onValueChange={setDepartment}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger className="w-full sm:w-[180px]">
             <SelectValue placeholder="Department" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Departments</SelectItem>
-            <SelectItem value="IT">IT</SelectItem>
-            <SelectItem value="Computer Science">Computer Science</SelectItem>
-            <SelectItem value="Civil Engineering">Civil Engineering</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={semester} onValueChange={setSemester}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="Semester" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Semesters</SelectItem>
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-              <SelectItem key={sem} value={sem.toString()}>
-                Semester {sem}
+            {departments.map((dept) => (
+              <SelectItem key={dept} value={dept}>
+                {dept}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
-        <Button type="submit">Search</Button>
+        <Select value={semester} onValueChange={setSemester}>
+          <SelectTrigger className="w-full sm:w-[180px]">
+            <SelectValue placeholder="Semester" />
+          </SelectTrigger>
+          <SelectContent>
+            {semesters.map((sem) => (
+              <SelectItem key={sem} value={sem}>
+                {sem === "All" ? "All Semesters" : `Semester ${sem}`}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Button type="submit" className="w-full sm:w-auto">
+          Search
+        </Button>
       </form>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {materials?.map((material) => (
-          <Card key={material._id}>
+
+      <div className="mb-6">
+        <h2 className="text-lg font-semibold mb-2">Departments</h2>
+        <ScrollArea className="w-full">
+          <div className="flex flex-wrap gap-2">
+            {departments.map((dept) => (
+              <Badge
+                key={dept}
+                variant={department === dept ? "default" : "outline"}
+                className="cursor-pointer px-2 py-1"
+                onClick={() => setDepartment(dept)}
+              >
+                {dept}
+              </Badge>
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredMaterials.map((material) => (
+          <Card key={material._id} className="flex flex-col">
             <CardHeader>
-              <CardTitle>{material.title}</CardTitle>
+              <CardTitle className="text-lg">{material.title}</CardTitle>
               <CardDescription>
                 Department: {material.department}, Semester: {material.semester}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <p>{material.description}</p>
+            <CardContent className="flex-grow">
+              <ScrollArea className="h-[100px] w-full rounded-md border p-4">
+                <p>{material.description}</p>
+              </ScrollArea>
             </CardContent>
-            <CardFooter>
-              <Button asChild>
+            <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+              <p className="text-sm text-muted-foreground">
+                Uploaded by: {material.uploadedBy.name}
+              </p>
+              <Button asChild className="w-full sm:w-auto">
                 <a
                   href={material.fileUrl}
                   target="_blank"
