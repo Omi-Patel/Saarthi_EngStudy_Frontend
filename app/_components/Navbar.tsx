@@ -17,7 +17,7 @@ import { User, LogOut } from "lucide-react";
 
 export function Navbar() {
   const { user, logout } = useAuth();
-  const { setTheme, theme } = useTheme();
+  const { setTheme } = useTheme();
 
   const handleLogout = () => {
     logout();

@@ -57,9 +57,7 @@ export default function UploadMaterial() {
     onError: (error: any) => {
       toast({
         title: "Error",
-        description:
-          error.response?.data?.message ||
-          "Failed to upload material. Please try again.",
+        description: "Failed to upload material. Please try again.",
         variant: "destructive",
       });
     },

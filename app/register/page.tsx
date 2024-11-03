@@ -50,6 +50,7 @@ export default function Register() {
         variant: "destructive",
       });
       setLoading(false);
+      console.log(error);
     }
   };
 

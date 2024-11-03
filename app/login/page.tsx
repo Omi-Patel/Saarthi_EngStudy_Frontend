@@ -40,6 +40,7 @@ export default function Login() {
         variant: "destructive",
       });
       setLoading(false);
+      console.log(error);
     }
   };
 
