@@ -54,7 +54,7 @@ export default function UploadMaterial() {
       });
       router.push("/materials");
     },
-    onError: (error: any) => {
+    onError: (error) => {
       toast({
         title: "Error",
         description: "Failed to upload material. Please try again.",
