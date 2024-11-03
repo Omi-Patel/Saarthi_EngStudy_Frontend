@@ -97,7 +97,7 @@ export default function Materials() {
   if (error) return <div className="container py-10">An error occurred</div>;
 
   return (
-    <div className="container py-10 px-4 sm:px-6 lg:px-8">
+    <div className="container py-10 ">
       <h1 className="text-3xl font-bold mb-6">Study Materials</h1>
       <form
         onSubmit={handleSearch}

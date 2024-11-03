@@ -100,12 +100,20 @@ export default function Register() {
                   <SelectValue placeholder="Select department" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="IT">IT</SelectItem>
+                  <SelectItem value="Information Technology">
+                    Information Technology
+                  </SelectItem>
                   <SelectItem value="Computer Science">
                     Computer Science
                   </SelectItem>
                   <SelectItem value="Civil Engineering">
                     Civil Engineering
+                  </SelectItem>
+                  <SelectItem value="Civil Engineering">
+                    Electrical Engineering
+                  </SelectItem>
+                  <SelectItem value="Civil Engineering">
+                    Mechanical Engineering
                   </SelectItem>
                   {/* Add more departments as needed */}
                 </SelectContent>
