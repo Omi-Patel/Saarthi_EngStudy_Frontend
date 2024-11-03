@@ -60,6 +60,8 @@ export default function UploadMaterial() {
         description: "Failed to upload material. Please try again.",
         variant: "destructive",
       });
+      console.log(error);
+      
     },
   });
 
