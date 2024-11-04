@@ -54,6 +54,7 @@ export default function UploadMaterial() {
       });
       router.push("/materials");
     },
+    // eslint-disable @typescript-eslint/no-explicit-any 
     onError: (error: any) => {
       const errorMessage =
         (error.response?.data?.error as string) || error.message;
