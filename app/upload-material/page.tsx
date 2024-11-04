@@ -54,14 +54,14 @@ export default function UploadMaterial() {
       });
       router.push("/materials");
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      const errorMessage =
+        (error.response?.data?.error as string) || error.message;
       toast({
         title: "Error",
-        description: "Failed to upload material. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
-      console.log(error);
-      
     },
   });
 
