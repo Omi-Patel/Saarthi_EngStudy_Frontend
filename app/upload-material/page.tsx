@@ -26,7 +26,6 @@ import {
 } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
-import { AxiosError } from "axios";
 
 export default function UploadMaterial() {
   const [title, setTitle] = useState("");
