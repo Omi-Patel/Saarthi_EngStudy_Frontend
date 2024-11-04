@@ -159,7 +159,7 @@ export default function Materials() {
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {filteredMaterials.length > 0 ? filteredMaterials.map((material) => (
-          <Card key={material._id} className="flex flex-col mt-2">
+          <Card key={material._id} className="flex flex-col mt-6">
             <CardHeader>
               <CardTitle className="text-lg">{material.title}</CardTitle>
               <CardDescription>
