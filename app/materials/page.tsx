@@ -155,9 +155,10 @@ export default function Materials() {
           </div>
         </ScrollArea>
       </div>
+      <hr />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredMaterials.map((material) => (
+        {filteredMaterials.length > 0 ? filteredMaterials.map((material) => (
           <Card key={material._id} className="flex flex-col">
             <CardHeader>
               <CardTitle className="text-lg">{material.title}</CardTitle>
@@ -185,7 +186,7 @@ export default function Materials() {
               </Button>
             </CardFooter>
           </Card>
-        ))}
+        )) : <h1 className="text-xl font-semibold mt-6 ">No Materials Found</h1>}
       </div>
     </div>
   );
