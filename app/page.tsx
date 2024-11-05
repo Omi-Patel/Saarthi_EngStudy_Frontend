@@ -1,7 +1,11 @@
+"use client";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/AuthContext";
 
 export default function Home() {
+  const { user } = useAuth();
+
   return (
     <div className="flex-1">
       <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:py-32">
@@ -17,11 +21,19 @@ export default function Home() {
             <Link href="/materials">
               <Button size="lg">Browse Materials</Button>
             </Link>
-            <Link href="/register">
-              <Button size="lg" variant="outline">
-                Sign Up
-              </Button>
-            </Link>
+            {user ? (
+              <Link href="/dashboard">
+                <Button size="lg" variant="outline">
+                  Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link href="/register">
+                <Button size="lg" variant="outline">
+                  Sign Up
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>

@@ -135,7 +135,7 @@ export default function Register() {
                 </SelectContent>
               </Select>
             </div>
-            <Button className="w-full mt-6" type="submit">
+            <Button className="w-full mt-6" type="submit" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
