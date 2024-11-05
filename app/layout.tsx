@@ -5,6 +5,7 @@ import { Providers } from "./provider";
 import { Navbar } from "./_components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/lib/AuthContext";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -57,6 +58,7 @@ export default function RootLayout({
             <Toaster />
           </AuthProvider>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
