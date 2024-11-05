@@ -58,6 +58,7 @@ export default function AdminDashboard() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState("");
+  const [updatingUserId, setUpdatingUserId] = useState<string | null>(null);
 
   const { data: users, isLoading: isLoadingUsers } = useQuery<User[]>({
     queryKey: ["users"],
@@ -85,6 +86,7 @@ export default function AdminDashboard() {
       userId: string;
       newRole: string;
     }) => {
+      setUpdatingUserId(userId);
       const response = await axios.put(`/admin/${userId}/role`, {
         role: newRole,
       });
@@ -97,6 +99,7 @@ export default function AdminDashboard() {
         description: "User Role Updated Successfully.!",
         variant: "success",
       });
+      setUpdatingUserId(null);
     },
     onError: () => {
       toast({
@@ -104,6 +107,7 @@ export default function AdminDashboard() {
         description: "Failed to update user role. Please try again.",
         variant: "destructive",
       });
+      setUpdatingUserId(null);
     },
   });
 
@@ -158,7 +162,7 @@ export default function AdminDashboard() {
           <CardHeader>
             <CardTitle>Access Denied</CardTitle>
             <CardDescription>
-              You do not have permission to upload materials.
+              You do not have permission to access the admin dashboard.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -216,9 +220,14 @@ export default function AdminDashboard() {
                             onValueChange={(newRole) =>
                               handleRoleChange(user._id, newRole)
                             }
+                            disabled={updatingUserId === user._id}
                           >
                             <SelectTrigger className="w-[180px]">
-                              <SelectValue placeholder="Select role" />
+                              {updatingUserId === user._id ? (
+                                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                              ) : (
+                                <SelectValue placeholder="Select role" />
+                              )}
                             </SelectTrigger>
                             <SelectContent>
                               <SelectItem value="student">Student</SelectItem>

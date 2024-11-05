@@ -34,7 +34,7 @@ export function Navbar() {
           <nav className="flex gap-6">
             <Link
               href="/materials"
-              className="flex items-center text-sm font-medium text-muted-foreground"
+              className="flex items-center text-base font-medium text-muted-foreground"
             >
               Materials
             </Link>
