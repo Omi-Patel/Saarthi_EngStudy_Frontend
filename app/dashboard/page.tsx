@@ -33,7 +33,7 @@ export default function Dashboard() {
             {user?.role === "student" && (
               <div className="mt-4">
                 <p>
-                  To upload materials, you need to be a student admin or admin.
+                  To upload materials, you need to be a student_admin or admin.
                 </p>
                 <Button asChild className="mt-2">
                   <Link href="/request-admin">Request Admin Access</Link>
