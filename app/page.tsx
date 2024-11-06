@@ -2,6 +2,17 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/AuthContext";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Search,
+  Folder,
+  Upload,
+  FileText,
+  Users,
+  CheckCircle,
+  UserPlus,
+  UserCheck,
+} from "lucide-react";
 
 export default function Home() {
   const { user } = useAuth();
@@ -51,23 +62,9 @@ export default function Home() {
           </p>
         </div>
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-search"
-              >
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.3-4.3" />
-              </svg>
+          <Card>
+            <CardContent className="flex h-[180px] flex-col justify-between p-6">
+              <Search className="h-6 w-6" />
               <div className="space-y-2">
                 <h3 className="font-bold">Easy Search</h3>
                 <p className="text-sm text-muted-foreground">
@@ -75,24 +72,11 @@ export default function Home() {
                   feature.
                 </p>
               </div>
-            </div>
-          </div>
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-folder"
-              >
-                <path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z" />
-              </svg>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex h-[180px] flex-col justify-between p-6">
+              <Folder className="h-6 w-6" />
               <div className="space-y-2">
                 <h3 className="font-bold">Organized Content</h3>
                 <p className="text-sm text-muted-foreground">
@@ -100,35 +84,112 @@ export default function Home() {
                   easy navigation.
                 </p>
               </div>
-            </div>
-          </div>
-          <div className="relative overflow-hidden rounded-lg border bg-background p-2">
-            <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="lucide lucide-upload"
-              >
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                <polyline points="17 8 12 3 7 8" />
-                <line x1="12" x2="12" y1="3" y2="15" />
-              </svg>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="flex h-[180px] flex-col justify-between p-6">
+              <Upload className="h-6 w-6" />
               <div className="space-y-2">
                 <h3 className="font-bold">Easy Uploads</h3>
                 <p className="text-sm text-muted-foreground">
-                  Admins can easily upload and manage study materials for
-                  students.
+                  Student admins can easily upload and manage study materials
+                  for their peers.
                 </p>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+      <section
+        id="user-guide"
+        className="container space-y-6 py-8 md:py-12 lg:py-24"
+      >
+        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-4 text-center">
+          <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
+            How to Become a Student Admin and Upload Materials
+          </h2>
+          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
+            Follow these steps to contribute study materials to our platform.
+          </p>
+        </div>
+        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] lg:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <Users className="h-8 w-8 mb-2" />
+              <CardTitle>1. Register as a Student</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Sign up for an account on our platform. All new users start with
+                a student role.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <UserPlus className="h-8 w-8 mb-2" />
+              <CardTitle>2. Request Student_Admin Role</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Navigate to your dashboard and find the Request Student_Admin
+                option. Submit a request explaining why you&apos;d like to
+                become a student admin.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <UserCheck className="h-8 w-8 mb-2" />
+              <CardTitle>3. Await Approval</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                An administrator will review your request. If approved, your
+                role will be updated to student_admin.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <FileText className="h-8 w-8 mb-2" />
+              <CardTitle>4. Prepare Your Material</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Once approved as a student_admin, prepare your study material.
+                Ensure it&apos;s in a common file format (PDF, Image only.) and
+                free of copyright issues.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <Upload className="h-8 w-8 mb-2" />
+              <CardTitle>5. Upload Material</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Go to your dashboard and find the{" "}
+                <span className="font-bold">Upload Material</span> button. Fill
+                in the details like title, description, department, and
+                semester.
+              </p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CheckCircle className="h-8 w-8 mb-2" />
+              <CardTitle>6. Publish and Share</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-muted-foreground">
+                Review the details and file. Click{" "}
+                <span className="font-bold">Publish</span> to make the material
+                available to other students on the platform.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </section>
     </div>
