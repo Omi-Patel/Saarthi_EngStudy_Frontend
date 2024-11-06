@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "./axios";
+import { Loader2 } from "lucide-react";
 
 interface User {
   _id: string;
@@ -86,7 +87,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen w-full fixed inset-0 flex items-center justify-center bg-background/50 backdrop-blur-sm">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
   }
 
   return (
