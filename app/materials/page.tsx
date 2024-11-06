@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Material {
   _id: string;
@@ -93,7 +94,6 @@ export default function Materials() {
     // The filtering is already handled by the useMemo hook
   };
 
-  if (isLoading) return <div className="container py-10">Loading...</div>;
   if (error) return <div className="container py-10">An error occurred</div>;
 
   return (
@@ -158,35 +158,57 @@ export default function Materials() {
       <hr />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {filteredMaterials.length > 0 ? filteredMaterials.map((material) => (
-          <Card key={material._id} className="flex flex-col mt-6">
-            <CardHeader>
-              <CardTitle className="text-lg">{material.title}</CardTitle>
-              <CardDescription>
-                Department: {material.department}, Semester: {material.semester}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow">
-              <ScrollArea className="h-[100px] w-full rounded-md border p-4">
-                <p>{material.description}</p>
-              </ScrollArea>
-            </CardContent>
-            <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-              <p className="text-sm text-muted-foreground">
-                Uploaded by: {material.uploadedBy.name}
-              </p>
-              <Button asChild className="w-full sm:w-auto">
-                <a
-                  href={material.fileUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download
-                </a>
-              </Button>
-            </CardFooter>
-          </Card>
-        )) : <h1 className="text-xl font-semibold mt-6 ">No Materials Found</h1>}
+        {isLoading ? (
+          // Skeleton loader
+          Array.from({ length: 6 }).map((_, index) => (
+            <Card key={index} className="flex flex-col mt-6">
+              <CardHeader>
+                <Skeleton className="h-6 w-3/4 mb-2" />
+                <Skeleton className="h-4 w-1/2" />
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <Skeleton className="h-[100px] w-full rounded-md" />
+              </CardContent>
+              <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <Skeleton className="h-4 w-1/3" />
+                <Skeleton className="h-9 w-full sm:w-[100px]" />
+              </CardFooter>
+            </Card>
+          ))
+        ) : filteredMaterials.length > 0 ? (
+          filteredMaterials.map((material) => (
+            <Card key={material._id} className="flex flex-col mt-6">
+              <CardHeader>
+                <CardTitle className="text-lg">{material.title}</CardTitle>
+                <CardDescription>
+                  Department: {material.department}, Semester:{" "}
+                  {material.semester}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-grow">
+                <ScrollArea className="h-[100px] w-full rounded-md border p-4">
+                  <p>{material.description}</p>
+                </ScrollArea>
+              </CardContent>
+              <CardFooter className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <p className="text-sm text-muted-foreground">
+                  Uploaded by: {material.uploadedBy.name}
+                </p>
+                <Button asChild className="w-full sm:w-auto">
+                  <a
+                    href={material.fileUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Download
+                  </a>
+                </Button>
+              </CardFooter>
+            </Card>
+          ))
+        ) : (
+          <h1 className="text-xl font-semibold mt-6 ">No Materials Found</h1>
+        )}
       </div>
     </div>
   );
