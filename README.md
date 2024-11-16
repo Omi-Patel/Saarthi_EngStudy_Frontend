@@ -1,36 +1,191 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Engineering Study Platform
+
+## Table of Contents
+- [Introduction](#introduction)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Project Structure](#project-structure)
+- [API Endpoints](#api-endpoints)
+- [Authentication](#authentication)
+- [File Upload](#file-upload)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Introduction
+
+The Engineering Study Platform is a web application designed to facilitate the sharing and management of study materials among engineering students. It provides a centralized platform where students can access, upload, and manage educational resources specific to their department and semester.
+
+## Features
+
+- User authentication and authorization (Student, Student Admin, Admin roles)
+- Material browsing with filtering by department and semester
+- Material upload for Student Admins and Admins
+- User dashboard with personal information and uploaded materials
+- Admin panel for user management and material moderation
+- Responsive design for various devices
+- File upload to Cloudinary for efficient storage and retrieval
+
+## Tech Stack
+
+- Frontend:
+  - Next.js 13 (App Router)
+  - React
+  - TypeScript
+  - Tailwind CSS
+  - shadcn/ui components
+  - React Query for state management
+- Backend:
+  - Node.js
+  - Express.js
+  - MongoDB with Mongoose
+- Authentication:
+  - JSON Web Tokens (JWT)
+- File Storage:
+  - Cloudinary
+- Deployment:
+  - Vercel (Frontend and Backend)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js (v14 or later)
+- npm or yarn
+- MongoDB database
+- Cloudinary account
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Omi-Patel/Saarthi_EngStudy_Frontend
+   cd Saarthi_EngStudy_Frontend
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+3. Set up environment variables:
+   Create a `.env.local` file in the root directory and add the following variables:
+   ```
+   NEXT_PUBLIC_API_URL=http://localhost:3000/api
+   MONGODB_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Project Structure
+
+```
+saarthi-engstudy/
+├── frontend/
+│   ├── app/
+│   │   ├── (auth)/
+│   │   │   ├── login/
+│   │   │   ├── register/
+│   │   │   └── ...
+│   │   ├── dashboard/
+│   │   ├── materials/
+│   │   ├── upload-material/
+│   │   ├── admin/
+│   │   ├── request-admin/
+│   │   └── ...
+│   ├── components/
+│   │   ├── ui/
+│   │   └── ...
+│   ├── lib/
+│   │   ├── AuthContext.tsx
+│   │   ├── axios.ts
+│   │   └── ...
+│   ├── public/
+│   ├── styles/
+│   ├── types/
+│   ├── .env.local
+│   ├── next.config.js
+│   ├── package.json
+│   └── tsconfig.json
+├── backend/
+│   ├── routes/
+│   │   ├── auth.js
+│   │   ├── material.js
+│   │   ├── adminUser.js
+│   │   └── studentAdmin.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Material.js
+│   │   └── ...
+│   ├── middleware/
+│   ├── controllers/
+│   ├── config/
+│   ├── .env
+│   ├── server.js
+│   └── package.json
+├── README.md
+└── .gitignore
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## API Endpoints
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+`/` - Welcome message
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`/api/auth` - Authentication routes
+- `/api/auth/register` - User registration
+- `/api/auth/login` - User login
 
-## Learn More
+`/api/materials` - Material routes
+- GET: Fetch all materials
+- POST: Create new material
 
-To learn more about Next.js, take a look at the following resources:
+`/api/admin` - Admin routes (protected)
+- User management
+- Material moderation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+`/api/student-admin` - Student Admin routes (protected)
+- Material upload
+- Limited user management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Authentication
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The application uses JWT for authentication. Upon successful login, a token is generated and stored in the browser's local storage. This token is then sent with each API request to authenticate the user.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## File Upload
+
+Files are uploaded to Cloudinary using their API. The upload process is handled on the server-side to ensure security. File references (URLs) are stored in the MongoDB database along with other material information.
+
+## Deployment
+
+The application is deployed on Vercel. The frontend and backend are deployed as different project.
+
+To deploy your own instance:
+
+1. Create a Vercel account and link it to your GitHub repository.
+2. Set up the environment variables in the Vercel dashboard.
+3. Deploy the application.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License.
